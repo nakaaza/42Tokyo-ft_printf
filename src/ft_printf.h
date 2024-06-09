@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nakaaza <nakaaza@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tnakaza <tnakaza@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 19:38:05 by tnakaza           #+#    #+#             */
-/*   Updated: 2024/06/07 17:28:12 by nakaaza          ###   ########.fr       */
+/*   Updated: 2024/06/10 00:23:40 by tnakaza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,9 +62,10 @@ char		*char_to_str(char c);
 char		*str_to_str(char *s);
 
 // ft_nbrs_to_str.c
-char		*int_to_str(int nbr);
+char		*int_to_str(int nbr, char sign_padding);
 char		*uint_to_str(unsigned int nbr);
-char		*uint_to_hexstr(unsigned int nbr, int capital);
+char		*uint_to_hexstr(unsigned int nbr, int prefix, int capital);
+char		*ptr_to_str(uintptr_t nbr);
 
 // debugs.c
 // TODO: delete

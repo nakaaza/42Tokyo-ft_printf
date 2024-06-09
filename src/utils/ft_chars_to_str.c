@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_chars_to_str.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nakaaza <nakaaza@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tnakaza <tnakaza@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 17:00:36 by nakaaza           #+#    #+#             */
-/*   Updated: 2024/06/07 17:18:28 by nakaaza          ###   ########.fr       */
+/*   Updated: 2024/06/10 00:16:37 by tnakaza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 char	*char_to_str(char c)
 {
-	char *str;
+	char	*str;
 
 	str = (char *)malloc(2 * sizeof(char));
 	if (!str)
@@ -35,8 +35,8 @@ char	*str_to_str(char *s)
 	}
 	else
 	{
-		str = (char *)malloc((ft_strlen(str) + 1) * sizeof(char));
-		ft_strlcpy(str, s, ft_strlen(str));
+		str = (char *)malloc((ft_strlen(s) + 1) * sizeof(char));
+		ft_strlcpy(str, s, ft_strlen(s) + 1);
 	}
 	return (str);
 }

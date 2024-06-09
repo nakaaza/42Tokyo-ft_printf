@@ -1,14 +1,16 @@
 # Names
 NAME		= libftprintf.a
-LIBFT_A		= libft.a
 LIBFT_DIR	= ./libft/
+LIBFT_A		= libft.a
+SRC_DIR		= ./src/
 SRCS		= ft_printf \
 				debugs
-UTILS		= ft_parse_format ft_check_flags ft_print_format \
-				ft_print_chars ft_print_nbrs ft_print_ptr
-SRC_DIR		= ./src/
 UTILS_DIR	= ./src/utils/
+UTILS		= ft_parse_format ft_check_flags ft_print_format \
+				ft_print_chars ft_print_nbrs ft_print_ptr \
+				ft_chars_to_str ft_nbrs_to_str
 OBJ_DIR		= ./obj/
+
 SRC_FILES	= $(addprefix $(SRC_DIR), $(addsuffix .c, $(SRCS))) $(addprefix $(UTILS_DIR), $(addsuffix .c, $(UTILS)))
 OBJ_FILES	= $(addprefix $(OBJ_DIR), $(addsuffix .o, $(SRCS))) $(addprefix $(OBJ_DIR), $(addsuffix .o, $(UTILS)))
 
@@ -62,7 +64,7 @@ re: fclean all
 test: test-all
 
 test-%: $(NAME)
-	$(CC) $(CFLAGS) -o test test.c $(NAME) $(LIBFT_DIR)/$(LIBFT_A)
+	$(CC) $(CFLAGS) -o test test.c $(NAME) $(LIBFT_DIR)$(LIBFT_A)
 	@echo "$(YELLOW)"
 	./test $(@:test-%=%)
 	@echo "$(DEF_COLOR)"

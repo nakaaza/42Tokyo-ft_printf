@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tnakaza <tnakaza@student.42.fr>            +#+  +:+       +#+        */
+/*   By: nakaaza <nakaaza@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 19:38:05 by tnakaza           #+#    #+#             */
-/*   Updated: 2024/06/07 11:25:41 by tnakaza          ###   ########.fr       */
+/*   Updated: 2024/06/07 17:28:12 by nakaaza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,15 @@ size_t		print_hex(unsigned int nbr, int capital, size_t len);
 
 // ft_print_ptr.c
 size_t		print_ptr_addr(uintptr_t ptr_addr, size_t len);
+
+// ft_chars_to_str.c
+char		*char_to_str(char c);
+char		*str_to_str(char *s);
+
+// ft_nbrs_to_str.c
+char		*int_to_str(int nbr);
+char		*uint_to_str(unsigned int nbr);
+char		*uint_to_hexstr(unsigned int nbr, int capital);
 
 // debugs.c
 // TODO: delete

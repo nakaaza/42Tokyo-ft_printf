@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_print_format.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tnakaza <tnakaza@student.42.fr>            +#+  +:+       +#+        */
+/*   By: nakaaza <nakaaza@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 14:54:41 by tnakaza           #+#    #+#             */
-/*   Updated: 2024/06/07 12:27:53 by tnakaza          ###   ########.fr       */
+/*   Updated: 2024/06/07 17:31:13 by nakaaza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 size_t	print_format(t_format *format, va_list args)
 {
 	size_t	cnt;
+	char	*str;
 	char	padding;
 
 	cnt = 0;
@@ -25,85 +26,95 @@ size_t	print_format(t_format *format, va_list args)
 	{
 		char	c;
 		c = va_arg(args, int);
-		print_str("\033[1D");
-		print_str("x");
-		cnt = print_char(c);
+		// cnt = print_char(c);
+		str = char_to_str(c);
 	}
 	else if (format -> specifier == 's')
 	{
-		char	*str;
-		str = va_arg(args, char *);
-		if (str)
-			cnt = print_str(str);
-		else
-			cnt = print_str("(null)");
+		char	*s;
+		s = va_arg(args, char *);
+		// if (s)
+		// 	cnt = print_str(s);
+		// else
+		// 	cnt = print_str("(null)");
+		str = str_to_str(s);
 	}
 	else if (format -> specifier == 'p')
 	{
 		void	*p;
 		p = va_arg(args, void *);
-		print_str("0x");
-		cnt = print_ptr_addr((uintptr_t) p, 0) + 2;
+		// print_str("0x");
+		// cnt = print_ptr_addr((uintptr_t) p, 0) + 2;
+		str = uint_to_hexstr((unsigned int)(uintptr_t) p, 0);
 	}
 	else if (format -> specifier == 'd' || format -> specifier == 'i')
 	{
 		int		d;
-		size_t	head_count;
+		// size_t	head_count;
 
 		d = va_arg(args, int);
-		head_count = 0;
-		if (check_plus_flag(format) && d >= 0)
-		{
-			print_char('+');
-			head_count++;
-		}
-		else if (check_space_flag(format) && d >= 0)
-		{
-			print_char(' ');
-			head_count++;
-		}
-		cnt = print_nbr(d) + head_count;
+		// head_count = 0;
+		// if (check_plus_flag(format) && d >= 0)
+		// {
+		// 	print_char('+');
+		// 	head_count++;
+		// }
+		// else if (check_space_flag(format) && d >= 0)
+		// {
+		// 	print_char(' ');
+		// 	head_count++;
+		// }
+		// cnt = print_nbr(d) + head_count;
+		str = int_to_str(d);
 	}
 	else if (format -> specifier == 'u')
 	{
 		unsigned int	u;
 		u = va_arg(args, unsigned int);
-		cnt = print_unbr(u);
+		// cnt = print_unbr(u);
+		str = uint_to_str(u);
 	}
 	else if (format -> specifier == 'x')
 	{
 		int		x;
-		size_t	head_count;
+		// size_t	head_count;
 
 		x = va_arg(args, int);
-		head_count = 0;
-		if (check_hash_flag(format))
-			head_count += print_str("0x");
-		cnt = print_hex((unsigned int)x, 0, 0) + head_count;
+		// head_count = 0;
+		// if (check_hash_flag(format))
+		// 	head_count += print_str("0x");
+		// cnt = print_hex((unsigned int)x, 0, 0) + head_count;
+		str = uint_to_hexstr(x, 0);
 	}
 	else if (format -> specifier == 'X')
 	{
 		int		x;
-		size_t	head_count;
+		// size_t	head_count;
 
 		x = va_arg(args, int);
-		head_count = 0;
-		if (check_hash_flag(format))
-			head_count += print_str("0X");
-		cnt = print_hex((unsigned int)x, 1, 0) + head_count;
+		// head_count = 0;
+		// if (check_hash_flag(format))
+		// 	head_count += print_str("0X");
+		// cnt = print_hex((unsigned int)x, 1, 0) + head_count;
+		str = uint_to_hexstr(x, 1);
 	}
 	if (format -> field_width > cnt)
 	{
 		if (check_minus_flag(format))
 		{
+			cnt += print_str(str);
 			while (cnt++ < format -> field_width)
-				put_char(' ');
+				print_char(padding);
 		}
 		else
 		{
-			if (check_zero_flag)
+			if (check_zero_flag(format))
 				padding = '0';
+			while (cnt++ + ft_strlen(str) < format -> field_width)
+				print_char(padding);
+			cnt += print_str(str);
 		}
 	}
+	free(str);
 	return (cnt);
 }

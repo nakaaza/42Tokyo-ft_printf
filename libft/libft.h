@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tnakaza <tnakaza@student.42.fr>            +#+  +:+       +#+        */
+/*   By: nakaaza <nakaaza@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 22:48:23 by tnakaza           #+#    #+#             */
-/*   Updated: 2024/06/06 19:21:46 by tnakaza          ###   ########.fr       */
+/*   Updated: 2024/06/07 17:32:54 by nakaaza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,10 @@ int		ft_isdigit(int c);
 size_t	ft_strlen(const char *s);
 void	*ft_memset(void *b, int c, size_t len);
 void	ft_bzero(void *s, size_t n);
-// void	*ft_memcpy(void *dst, const void *src, size_t n);
+void	*ft_memcpy(void *dst, const void *src, size_t n);
 void	*ft_memmove(void *dst, const void *src, size_t len);
-// size_t	ft_strlcpy(char *dst, 
-// 					const char *src, size_t dstsize);
+size_t	ft_strlcpy(char *dst, 
+					const char *src, size_t dstsize);
 // size_t	ft_strlcat(char *dst, 
 // 					const char *src, size_t dstsize);
 // int		ft_toupper(int c);

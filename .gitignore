@@ -1,0 +1,8 @@
+.vscode/
+tests/
+.DS_Store
+.gitmodules
+*.o
+*.a
+a.out
+test

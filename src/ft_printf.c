@@ -6,7 +6,7 @@
 /*   By: tnakaza <tnakaza@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 19:37:45 by tnakaza           #+#    #+#             */
-/*   Updated: 2024/06/06 19:14:07 by tnakaza          ###   ########.fr       */
+/*   Updated: 2024/06/10 16:51:19 by tnakaza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ int	ft_printf(const char *str, ...)
 				str += format -> chars_read;
 				// print_params(format);
 				cnt += print_format(format, args);
+				if (format -> str)
+					free(format -> str);
 				free(format);
 			}
 		}

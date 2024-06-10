@@ -6,25 +6,27 @@
 /*   By: tnakaza <tnakaza@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 17:00:36 by nakaaza           #+#    #+#             */
-/*   Updated: 2024/06/10 00:16:37 by tnakaza          ###   ########.fr       */
+/*   Updated: 2024/06/10 17:21:23 by tnakaza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft_printf.h"
 
-char	*char_to_str(char c)
+void	char_to_str(char c, t_format *format)
 {
 	char	*str;
 
 	str = (char *)malloc(2 * sizeof(char));
 	if (!str)
-		return (NULL);
+		return ;
 	str[0] = c;
 	str[1] = '\0';
-	return (str);
+	format -> str = str;
+	format -> len = 1;
+	return ;
 }
 
-char	*str_to_str(char *s)
+void	str_to_str(char *s, t_format *format)
 {
 	char	*str;
 
@@ -38,5 +40,7 @@ char	*str_to_str(char *s)
 		str = (char *)malloc((ft_strlen(s) + 1) * sizeof(char));
 		ft_strlcpy(str, s, ft_strlen(s) + 1);
 	}
-	return (str);
+	format -> str = str;
+	format -> len = ft_strlen(str);
+	return ;
 }

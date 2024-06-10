@@ -6,7 +6,7 @@
 /*   By: tnakaza <tnakaza@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 17:11:25 by nakaaza           #+#    #+#             */
-/*   Updated: 2024/06/10 00:23:25 by tnakaza          ###   ########.fr       */
+/*   Updated: 2024/06/10 17:17:21 by tnakaza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,29 +15,34 @@
 int static	count_udigit(unsigned int n, unsigned int base);
 int static	count_pdigit(uintptr_t p);
 
-char	*int_to_str(int nbr, char sign_padding)
+void	int_to_str(int nbr, char sign_padding, t_format *format)
 {
 	char	*str;
 	char	*padded_str;
 
 	str = ft_itoa(nbr);
 	if (!str)
-		return (NULL);
+		return ;
 	if (sign_padding)
 	{
 		padded_str = (char *)malloc((ft_strlen(str) + 2) * sizeof(char));
 		if (!padded_str)
-			return (NULL);
+			return ;
 		padded_str[0] = sign_padding;
 		ft_strlcat(padded_str, str, ft_strlen(str) + 2);
+		format -> str = padded_str;
+		format -> len = ft_strlen(str) + 1;
 		free(str);
-		return (padded_str);
 	}
 	else
-		return (str);
+	{
+		format -> str = str;
+		format -> len = ft_strlen(str);
+	}
+	return ;
 }
 
-char	*uint_to_str(unsigned int nbr)
+void	uint_to_str(unsigned int nbr, t_format *format)
 {
 	int		d;
 	char	*res;
@@ -45,17 +50,19 @@ char	*uint_to_str(unsigned int nbr)
 	d = count_udigit(nbr, 10);
 	res = (char *)malloc((d + 1) * (int) sizeof(char));
 	if (!res)
-		return (NULL);
+		return ;
+	format -> str = res;
+	format -> len = d;
 	res[d] = '\0';
 	while (--d >= 0)
 	{
 		res[d] = nbr % 10 + '0';
 		nbr /= 10;
 	}
-	return (res);
+	return ;
 }
 
-char	*uint_to_hexstr(unsigned int nbr, int prefix, int capital)
+void	uint_to_hexstr(unsigned int nbr, int prefix, int capital, t_format *format)
 {
 	int		d;
 	char	*res;
@@ -64,7 +71,9 @@ char	*uint_to_hexstr(unsigned int nbr, int prefix, int capital)
 	d = count_udigit(nbr, 16) + prefix * 2;
 	res = (char *)malloc((d + 1) * (int) sizeof(char));
 	if (!res)
-		return (NULL);
+		return ;
+	format -> str = res;
+	format -> len = d;
 	res[d] = '\0';
 	if (prefix)
 	{
@@ -88,10 +97,10 @@ char	*uint_to_hexstr(unsigned int nbr, int prefix, int capital)
 		}
 		nbr /= 16;
 	}
-	return (res);
+	return ;
 }
 
-char	*ptr_to_str(uintptr_t nbr)
+void	ptr_to_str(uintptr_t nbr, t_format *format)
 {
 	int		d;
 	char	*res;
@@ -100,7 +109,9 @@ char	*ptr_to_str(uintptr_t nbr)
 	d = count_pdigit(nbr) + 2;
 	res = (char *)malloc((d + 1) * (int) sizeof(char));
 	if (!res)
-		return (NULL);
+		return ;
+	format -> str = res;
+	format -> len = d;
 	res[d] = '\0';
 	res[0] = '0';
 	res[1] = 'x';
@@ -113,7 +124,7 @@ char	*ptr_to_str(uintptr_t nbr)
 			res[d] = r - 10 + 'a';
 		nbr /= 16;
 	}
-	return (res);
+	return ;
 }
 
 int static	count_udigit(unsigned int n, unsigned int base)

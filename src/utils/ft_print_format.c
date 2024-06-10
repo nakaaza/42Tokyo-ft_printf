@@ -6,7 +6,7 @@
 /*   By: tnakaza <tnakaza@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 14:54:41 by tnakaza           #+#    #+#             */
-/*   Updated: 2024/06/10 00:25:13 by tnakaza          ###   ########.fr       */
+/*   Updated: 2024/06/10 17:11:33 by tnakaza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 size_t	print_format(t_format *format, va_list args)
 {
 	size_t	cnt;
-	char	*str;
 	char	padding;
 
 	cnt = 0;
@@ -25,21 +24,21 @@ size_t	print_format(t_format *format, va_list args)
 		char	c;
 
 		c = va_arg(args, int);
-		str = char_to_str(c);
+		char_to_str(c, format);
 	}
 	else if (format -> specifier == 's')
 	{
 		char	*s;
 
 		s = va_arg(args, char *);
-		str = str_to_str(s);
+		str_to_str(s, format);
 	}
 	else if (format -> specifier == 'p')
 	{
 		void	*p;
 
 		p = va_arg(args, void *);
-		str = ptr_to_str((uintptr_t) p);
+		ptr_to_str((uintptr_t) p, format);
 	}
 	else if (format -> specifier == 'd' || format -> specifier == 'i')
 	{
@@ -52,35 +51,35 @@ size_t	print_format(t_format *format, va_list args)
 			sign_padding = '+';
 		else if (check_space_flag(format) && d >= 0)
 			sign_padding = ' ';
-		str = int_to_str(d, sign_padding);
+		int_to_str(d, sign_padding, format);
 	}
 	else if (format -> specifier == 'u')
 	{
 		unsigned int	u;
 
 		u = va_arg(args, unsigned int);
-		str = uint_to_str(u);
+		uint_to_str(u, format);
 	}
 	else if (format -> specifier == 'x')
 	{
 		int		x;
 
 		x = va_arg(args, int);
-		str = uint_to_hexstr(x, check_hash_flag(format), 0);
+		uint_to_hexstr(x, check_hash_flag(format), 0, format);
 	}
 	else if (format -> specifier == 'X')
 	{
 		int		x;
 
 		x = va_arg(args, int);
-		str = uint_to_hexstr(x, check_hash_flag(format), 1);
+		uint_to_hexstr(x, check_hash_flag(format), 1, format);
 	}
 
-	if (format -> field_width > ft_strlen(str))
+	if (format -> field_width > format -> len)
 	{
 		if (check_minus_flag(format))
 		{
-			cnt += print_str(str);
+			cnt += print_formatted_str(format);
 			while (cnt < format -> field_width)
 			{
 				print_char(padding);
@@ -91,16 +90,15 @@ size_t	print_format(t_format *format, va_list args)
 		{
 			if (check_zero_flag(format))
 				padding = '0';
-			while (cnt + ft_strlen(str) < format -> field_width)
+			while (cnt + format -> len < format -> field_width)
 			{
 				print_char(padding);
 				cnt++;
 			}
-			cnt += print_str(str);
+			cnt += print_formatted_str(format);
 		}
 	}
 	else
-		cnt += print_str(str);
-	free(str);
+		cnt += print_formatted_str(format);
 	return (cnt);
 }

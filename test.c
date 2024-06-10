@@ -6,7 +6,7 @@
 /*   By: tnakaza <tnakaza@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 14:45:04 by tnakaza           #+#    #+#             */
-/*   Updated: 2024/06/09 23:23:08 by tnakaza          ###   ########.fr       */
+/*   Updated: 2024/06/10 17:40:23 by tnakaza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	test_u(void);
 void	test_x(void);
 void	test_X(void);
 
-char	*g_test_template = "|[]%$|[#]%#$|[-]%-$|[+]%+$|[ ]% $|[0]%0$|[12]%12$|[]%$|[]%$|";
+char	*g_test_template = "|[]%$|[#]%#$|[-]%-$|[+]%+$|[ ]% $|[015]%015$|[12]%12$|[10.5]%10.5$|[]%$|";
 
 int	main(int argc, char **argv)
 {
@@ -96,7 +96,7 @@ void	test_c(void)
 	char	*test_str;
 
 	data = (char *)malloc(sizeof(char));
-	*data = 'a';
+	*data = 'T';
 	test_str = set_test_str('c');
 	put_test(test_str, data, 'c');
 	free(data);
@@ -108,7 +108,7 @@ void	test_s(void)
 	char	*data;
 	char	*test_str;
 
-	data = NULL;
+	data = "42TokyoJapan";
 	test_str = set_test_str('s');
 	put_test(test_str, data, 's');
 	free(test_str);
@@ -132,7 +132,7 @@ void	test_d(void)
 	char	*test_str;
 
 	data = (int *)malloc(sizeof(int));
-	*data = 0;
+	*data = 420000;
 	test_str = set_test_str('d');
 	put_test(test_str, data, 'd');
 	free(data);
@@ -171,7 +171,7 @@ void	test_x(void)
 	char	*test_str;
 
 	data = (int *)malloc(sizeof(int));
-	*data = 42;
+	*data = 0;
 	test_str = set_test_str('x');
 	put_test(test_str, data, 'x');
 	free(data);

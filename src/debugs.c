@@ -6,19 +6,14 @@
 /*   By: tnakaza <tnakaza@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 19:18:15 by tnakaza           #+#    #+#             */
-/*   Updated: 2024/06/12 19:23:20 by tnakaza          ###   ########.fr       */
+/*   Updated: 2024/06/12 20:09:50 by tnakaza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
 size_t static	print_nbr(int nbr);
-
-void	print_binary(unsigned int num, int bit)
-{
-	while (bit-- > 0)
-		print_char((int)((num >> bit) & 1) + '0');
-}
+void static		print_binary(unsigned int num, int bit);
 
 void	print_params(t_format *format)
 {
@@ -50,4 +45,10 @@ size_t static	print_nbr(int nbr)
 	len = ft_strlen(str);
 	free(str);
 	return (len);
+}
+
+void static	print_binary(unsigned int num, int bit)
+{
+	while (bit-- > 0)
+		print_char((int)((num >> bit) & 1) + '0');
 }

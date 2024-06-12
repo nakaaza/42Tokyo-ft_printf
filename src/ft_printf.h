@@ -6,7 +6,7 @@
 /*   By: tnakaza <tnakaza@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 19:38:05 by tnakaza           #+#    #+#             */
-/*   Updated: 2024/06/12 20:05:44 by tnakaza          ###   ########.fr       */
+/*   Updated: 2024/06/12 20:10:22 by tnakaza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,8 @@
 # define FT_PRINTF_H
 
 # include "../libft/libft.h"
-# include <stddef.h>
 # include <stdarg.h>
 # include <stdlib.h>
-# include <limits.h>
 
 typedef struct s_format
 {
@@ -63,7 +61,6 @@ void		ptr_to_str(uintptr_t nbr, t_format *format);
 
 // debugs.c
 // TODO: delete
-void		print_binary(unsigned int num, int bit);
 void		print_params(t_format *format);
 
 #endif

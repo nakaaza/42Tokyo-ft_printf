@@ -1,37 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_print_chars.c                                   :+:      :+:    :+:   */
+/*   ft_memcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tnakaza <tnakaza@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/06 19:42:37 by tnakaza           #+#    #+#             */
-/*   Updated: 2024/06/12 19:16:40 by tnakaza          ###   ########.fr       */
+/*   Created: 2024/04/22 11:35:46 by tnakaza           #+#    #+#             */
+/*   Updated: 2024/05/21 18:35:27 by tnakaza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../ft_printf.h"
-#include <stdio.h>
+#include <stddef.h>
 
-size_t	print_char(char c)
+int	ft_memcmp(const void *s1, const void *s2, size_t n)
 {
-	ft_putchar_fd(c, 1);
-	return (1);
-}
+	size_t	i;
 
-size_t	print_formatted_str(t_format *format)
-{
-	size_t	cnt;
-	char	*formatted_str;
-
-	cnt = 0;
-	if (!(format -> str))
-		return (cnt);
-	formatted_str = format -> str;
-	while (cnt < format -> len)
+	if (n == 0)
+		return (0);
+	i = 0;
+	while (*(unsigned char *)s1 == *(unsigned char *)s2 \
+			&& i < n - 1)
 	{
-		print_char(*formatted_str++);
-		cnt++;
+		i++;
+		s1++;
+		s2++;
 	}
-	return (cnt);
+	return (*(unsigned char *)s1 - *(unsigned char *)s2);
 }

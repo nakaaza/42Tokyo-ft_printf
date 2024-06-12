@@ -1,37 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_print_chars.c                                   :+:      :+:    :+:   */
+/*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tnakaza <tnakaza@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/06 19:42:37 by tnakaza           #+#    #+#             */
-/*   Updated: 2024/06/12 19:16:40 by tnakaza          ###   ########.fr       */
+/*   Created: 2024/04/22 09:35:14 by tnakaza           #+#    #+#             */
+/*   Updated: 2024/05/07 23:23:04 by tnakaza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../ft_printf.h"
-#include <stdio.h>
+#include <stddef.h>
 
-size_t	print_char(char c)
+char	*ft_strrchr(const char *s, int c)
 {
-	ft_putchar_fd(c, 1);
-	return (1);
-}
+	char	*res;
 
-size_t	print_formatted_str(t_format *format)
-{
-	size_t	cnt;
-	char	*formatted_str;
-
-	cnt = 0;
-	if (!(format -> str))
-		return (cnt);
-	formatted_str = format -> str;
-	while (cnt < format -> len)
+	res = NULL;
+	while (*s != '\0')
 	{
-		print_char(*formatted_str++);
-		cnt++;
+		if (*s == (char) c)
+			res = (char *) s;
+		s++;
 	}
-	return (cnt);
+	if ((char) c == '\0')
+		res = (char *) s;
+	return (res);
 }

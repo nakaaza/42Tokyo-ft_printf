@@ -1,37 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_print_chars.c                                   :+:      :+:    :+:   */
+/*   ft_tolower.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tnakaza <tnakaza@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/06 19:42:37 by tnakaza           #+#    #+#             */
-/*   Updated: 2024/06/12 19:16:40 by tnakaza          ###   ########.fr       */
+/*   Created: 2024/04/21 19:00:24 by tnakaza           #+#    #+#             */
+/*   Updated: 2024/05/21 19:34:36 by tnakaza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../ft_printf.h"
-#include <stdio.h>
-
-size_t	print_char(char c)
+int	ft_tolower(int c)
 {
-	ft_putchar_fd(c, 1);
-	return (1);
-}
+	unsigned char	uc;
 
-size_t	print_formatted_str(t_format *format)
-{
-	size_t	cnt;
-	char	*formatted_str;
-
-	cnt = 0;
-	if (!(format -> str))
-		return (cnt);
-	formatted_str = format -> str;
-	while (cnt < format -> len)
-	{
-		print_char(*formatted_str++);
-		cnt++;
-	}
-	return (cnt);
+	if (c == -1)
+		return (c);
+	uc = (unsigned char) c;
+	if ('A' <= uc && uc <= 'Z')
+		uc += 'a' - 'A';
+	return (uc);
 }

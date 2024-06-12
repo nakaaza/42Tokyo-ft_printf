@@ -1,37 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_print_chars.c                                   :+:      :+:    :+:   */
+/*   ft_striteri.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tnakaza <tnakaza@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/06 19:42:37 by tnakaza           #+#    #+#             */
-/*   Updated: 2024/06/12 19:16:40 by tnakaza          ###   ########.fr       */
+/*   Created: 2024/04/28 15:16:54 by tnakaza           #+#    #+#             */
+/*   Updated: 2024/05/13 18:36:53 by tnakaza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../ft_printf.h"
-#include <stdio.h>
-
-size_t	print_char(char c)
+void	ft_striteri(char *s, void (*f)(unsigned int, char *))
 {
-	ft_putchar_fd(c, 1);
-	return (1);
-}
+	int	i;
 
-size_t	print_formatted_str(t_format *format)
-{
-	size_t	cnt;
-	char	*formatted_str;
-
-	cnt = 0;
-	if (!(format -> str))
-		return (cnt);
-	formatted_str = format -> str;
-	while (cnt < format -> len)
+	if (!s)
+		return ;
+	i = 0;
+	while (s[i] != '\0')
 	{
-		print_char(*formatted_str++);
-		cnt++;
+		f(i, s + i);
+		i++;
 	}
-	return (cnt);
+	return ;
 }

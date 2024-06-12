@@ -6,7 +6,7 @@
 /*   By: tnakaza <tnakaza@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 17:11:25 by nakaaza           #+#    #+#             */
-/*   Updated: 2024/06/10 17:17:21 by tnakaza          ###   ########.fr       */
+/*   Updated: 2024/06/12 20:03:30 by tnakaza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,29 +15,62 @@
 int static	count_udigit(unsigned int n, unsigned int base);
 int static	count_pdigit(uintptr_t p);
 
-void	int_to_str(int nbr, char sign_padding, t_format *format)
+void	int_to_str(int nbr, t_format *format)
 {
 	char	*str;
 	char	*padded_str;
+	char	sign_padding;
 
 	str = ft_itoa(nbr);
+	sign_padding = '\0';
+	if (check_plus_flag(format))
+		sign_padding = '+';
+	else if (check_space_flag(format))
+		sign_padding = ' ';
 	if (!str)
 		return ;
-	if (sign_padding)
+	if (nbr < 0)
 	{
-		padded_str = (char *)malloc((ft_strlen(str) + 2) * sizeof(char));
-		if (!padded_str)
-			return ;
-		padded_str[0] = sign_padding;
-		ft_strlcat(padded_str, str, ft_strlen(str) + 2);
-		format -> str = padded_str;
-		format -> len = ft_strlen(str) + 1;
+		padded_str = (char *)ft_calloc(ft_strlen(str), sizeof(char));
+		ft_strlcpy(padded_str, str + 1, ft_strlen(str));
 		free(str);
+		format -> str = padded_str;
+		format -> len = ft_strlen(padded_str);
+		sign_padding = '-';
+	}
+	else if (format -> precision == 0 && nbr == 0)
+	{
+		str[0] = '\0';
+		format -> str = str;
+		format -> len = 0;
 	}
 	else
 	{
 		format -> str = str;
 		format -> len = ft_strlen(str);
+	}
+	if (format -> precision != -1 \
+		&& (size_t)format -> precision > format -> len)
+	{
+		padded_str = (char *)ft_calloc(format -> precision + 1, sizeof(char));
+		if (!padded_str)
+			return ;
+		ft_memset(padded_str, '0', format -> precision - format -> len);
+		ft_strlcat(padded_str, format -> str, format -> precision + 1);
+		free(format -> str);
+		format -> str = padded_str;
+		format -> len = format -> precision;
+	}
+	if (sign_padding)
+	{
+		padded_str = (char *)ft_calloc(format -> len + 2, sizeof(char));
+		if (!padded_str)
+			return ;
+		padded_str[0] = sign_padding;
+		ft_strlcat(padded_str, format -> str, format -> len + 2);
+		free(format -> str);
+		format -> str = padded_str;
+		format -> len = format -> len + 1;
 	}
 	return ;
 }
@@ -45,45 +78,64 @@ void	int_to_str(int nbr, char sign_padding, t_format *format)
 void	uint_to_str(unsigned int nbr, t_format *format)
 {
 	int		d;
-	char	*res;
+	char	*str;
+	char	*padded_str;
 
 	d = count_udigit(nbr, 10);
-	res = (char *)malloc((d + 1) * (int) sizeof(char));
-	if (!res)
+	str = (char *)malloc((d + 1) * (int) sizeof(char));
+	if (!str)
 		return ;
-	format -> str = res;
+	format -> str = str;
 	format -> len = d;
-	res[d] = '\0';
+	str[d] = '\0';
+	if (format -> precision == 0 && nbr == 0)
+	{
+		str[0] = '\0';
+		format -> len = 0;
+		return ;
+	}
 	while (--d >= 0)
 	{
-		res[d] = nbr % 10 + '0';
+		str[d] = nbr % 10 + '0';
 		nbr /= 10;
+	}
+	if (format -> precision > 0 && (size_t)format -> precision > format -> len)
+	{
+		padded_str = (char *)ft_calloc(format -> precision + 1, sizeof(char));
+		if (!padded_str)
+			return ;
+		ft_memset(padded_str, '0', format -> precision - format -> len);
+		ft_strlcat(padded_str, format -> str, format -> precision + 1);
+		free(format -> str);
+		format -> str = padded_str;
+		format -> len = format -> precision;
 	}
 	return ;
 }
 
-void	uint_to_hexstr(unsigned int nbr, int prefix, int capital, t_format *format)
+void	uint_to_hexstr(unsigned int nbr, int capital, t_format *format)
 {
 	int		d;
 	char	*res;
 	int		r;
+	char	*padded_str;
 
-	d = count_udigit(nbr, 16) + prefix * 2;
+	if (nbr == 0)
+		format -> flags &= ~(1 << 4);
+	d = count_udigit(nbr, 16);
 	res = (char *)malloc((d + 1) * (int) sizeof(char));
 	if (!res)
 		return ;
 	format -> str = res;
 	format -> len = d;
 	res[d] = '\0';
-	if (prefix)
+	if (format -> precision == 0 && nbr == 0)
 	{
-		res[0] = '0';
-		if (capital)
-			res[1] = 'X';
-		else
-			res[1] = 'x';
+		res[0] = '\0';
+		format -> len = 0;
+		return ;
 	}
-	while (--d >= prefix * 2)
+	while (--d >= 0)
 	{
 		r = nbr % 16;
 		if (r <= 9)
@@ -96,6 +148,33 @@ void	uint_to_hexstr(unsigned int nbr, int prefix, int capital, t_format *format)
 				res[d] = r - 10 + 'a';
 		}
 		nbr /= 16;
+	}
+	if (format -> precision != -1 \
+		&& (size_t)format -> precision > format -> len)
+	{
+		padded_str = (char *)ft_calloc(format -> precision + 1, sizeof(char));
+		if (!padded_str)
+			return ;
+		ft_memset(padded_str, '0', format -> precision - format -> len);
+		ft_strlcat(padded_str, format -> str, format -> precision + 1);
+		free(format -> str);
+		format -> str = padded_str;
+		format -> len = format -> precision;
+	}
+	if (check_hash_flag(format))
+	{
+		padded_str = (char *)ft_calloc(format -> len + 3, sizeof(char));
+		if (!padded_str)
+			return ;
+		padded_str[0] = '0';
+		if (capital)
+			padded_str[1] = 'X';
+		else
+			padded_str[1] = 'x';
+		ft_strlcat(padded_str, format -> str, format -> len + 3);
+		free(format -> str);
+		format -> str = padded_str;
+		format -> len = format -> len + 2;
 	}
 	return ;
 }

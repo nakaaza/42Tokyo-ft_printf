@@ -1,37 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_print_chars.c                                   :+:      :+:    :+:   */
+/*   ft_lstclear.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tnakaza <tnakaza@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/06 19:42:37 by tnakaza           #+#    #+#             */
-/*   Updated: 2024/06/12 19:16:40 by tnakaza          ###   ########.fr       */
+/*   Created: 2024/05/17 13:26:16 by tnakaza           #+#    #+#             */
+/*   Updated: 2024/05/21 19:24:21 by tnakaza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../ft_printf.h"
-#include <stdio.h>
+#include "libft.h"
 
-size_t	print_char(char c)
+void	ft_lstclear(t_list **lst, void (*del)(void *))
 {
-	ft_putchar_fd(c, 1);
-	return (1);
-}
+	t_list	*current;
+	t_list	*next;
 
-size_t	print_formatted_str(t_format *format)
-{
-	size_t	cnt;
-	char	*formatted_str;
-
-	cnt = 0;
-	if (!(format -> str))
-		return (cnt);
-	formatted_str = format -> str;
-	while (cnt < format -> len)
+	if (lst == NULL || del == NULL)
+		return ;
+	current = *lst;
+	while (current != NULL)
 	{
-		print_char(*formatted_str++);
-		cnt++;
+		next = current -> next;
+		ft_lstdelone(current, del);
+		current = next;
 	}
-	return (cnt);
+	*lst = NULL;
+	return ;
 }

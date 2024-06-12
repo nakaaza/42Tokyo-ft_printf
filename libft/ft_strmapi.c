@@ -1,37 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_print_chars.c                                   :+:      :+:    :+:   */
+/*   ft_strmapi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tnakaza <tnakaza@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/06 19:42:37 by tnakaza           #+#    #+#             */
-/*   Updated: 2024/06/12 19:16:40 by tnakaza          ###   ########.fr       */
+/*   Created: 2024/04/27 19:18:57 by tnakaza           #+#    #+#             */
+/*   Updated: 2024/05/21 19:13:21 by tnakaza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../ft_printf.h"
-#include <stdio.h>
+#include <stdlib.h>
 
-size_t	print_char(char c)
+size_t	ft_strlen(const char *s);
+
+char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 {
-	ft_putchar_fd(c, 1);
-	return (1);
-}
+	size_t	n;
+	char	*res;
 
-size_t	print_formatted_str(t_format *format)
-{
-	size_t	cnt;
-	char	*formatted_str;
-
-	cnt = 0;
-	if (!(format -> str))
-		return (cnt);
-	formatted_str = format -> str;
-	while (cnt < format -> len)
-	{
-		print_char(*formatted_str++);
-		cnt++;
-	}
-	return (cnt);
+	if (!s)
+		return (NULL);
+	n = ft_strlen(s);
+	res = (char *)malloc((n + 1) * (int) sizeof(char));
+	if (!res)
+		return (NULL);
+	res[n] = '\0';
+	while (0 < n--)
+		res[n] = f(n, s[n]);
+	return (res);
 }

@@ -6,7 +6,7 @@
 /*   By: tnakaza <tnakaza@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 14:54:41 by tnakaza           #+#    #+#             */
-/*   Updated: 2024/06/10 17:11:33 by tnakaza          ###   ########.fr       */
+/*   Updated: 2024/06/12 20:01:12 by tnakaza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,65 +16,26 @@ size_t	print_format(t_format *format, va_list args)
 {
 	size_t	cnt;
 	char	padding;
+	char	*padded_str;
 
 	cnt = 0;
 	padding = ' ';
 	if (format -> specifier == 'c')
-	{
-		char	c;
-
-		c = va_arg(args, int);
-		char_to_str(c, format);
-	}
+		char_to_str(va_arg(args, int), format);
 	else if (format -> specifier == 's')
-	{
-		char	*s;
-
-		s = va_arg(args, char *);
-		str_to_str(s, format);
-	}
+		str_to_str(va_arg(args, char *), format);
 	else if (format -> specifier == 'p')
-	{
-		void	*p;
-
-		p = va_arg(args, void *);
-		ptr_to_str((uintptr_t) p, format);
-	}
+		ptr_to_str((uintptr_t) va_arg(args, void *), format);
 	else if (format -> specifier == 'd' || format -> specifier == 'i')
-	{
-		int		d;
-		char	sign_padding;
-
-		d = va_arg(args, int);
-		sign_padding = '\0';
-		if (check_plus_flag(format) && d >= 0)
-			sign_padding = '+';
-		else if (check_space_flag(format) && d >= 0)
-			sign_padding = ' ';
-		int_to_str(d, sign_padding, format);
-	}
+		int_to_str(va_arg(args, int), format);
 	else if (format -> specifier == 'u')
-	{
-		unsigned int	u;
-
-		u = va_arg(args, unsigned int);
-		uint_to_str(u, format);
-	}
+		uint_to_str(va_arg(args, unsigned int), format);
 	else if (format -> specifier == 'x')
-	{
-		int		x;
-
-		x = va_arg(args, int);
-		uint_to_hexstr(x, check_hash_flag(format), 0, format);
-	}
+		uint_to_hexstr(va_arg(args, int), 0, format);
 	else if (format -> specifier == 'X')
-	{
-		int		x;
-
-		x = va_arg(args, int);
-		uint_to_hexstr(x, check_hash_flag(format), 1, format);
-	}
-
+		uint_to_hexstr(va_arg(args, int), 1, format);
+	else if (format -> specifier == '%')
+		char_to_str('%', format);
 	if (format -> field_width > format -> len)
 	{
 		if (check_minus_flag(format))
@@ -88,8 +49,51 @@ size_t	print_format(t_format *format, va_list args)
 		}
 		else
 		{
-			if (check_zero_flag(format))
+			if (check_zero_flag(format) \
+				&& (!ft_strchr("diuxX", format -> specifier) \
+					|| (ft_strchr("diuxX", format -> specifier) \
+						&& format -> precision == -1)))
+			{
 				padding = '0';
+				if (ft_strchr("di", format -> specifier) \
+					&& format -> precision == -1 \
+					&& !ft_isdigit(*(format -> str)))
+				{
+					print_char(*(format -> str));
+					cnt++;
+					padded_str = (char *)ft_calloc(ft_strlen(format -> str), \
+													sizeof(char));
+					ft_strlcpy(padded_str, format -> str + 1, \
+								ft_strlen(format -> str));
+					free(format -> str);
+					format -> str = padded_str;
+					format -> len = ft_strlen(padded_str);
+				}
+				if (ft_strchr("xX", format -> specifier) \
+					&& format -> precision == -1 \
+					&& check_hash_flag(format) \
+					&& ft_strncmp(format -> str, "0", 2) != 0)
+				{
+					print_char('0');
+					if (format -> specifier == 'x')
+						print_char('x');
+					else if (format -> specifier == 'X')
+						print_char('X');
+					cnt += 2;
+					padded_str = (char *)calloc(ft_strlen(\
+													ft_strchr(format -> str, \
+														format -> specifier)), \
+												sizeof(char));
+					ft_strlcpy(padded_str, \
+								ft_strchr(format -> str, \
+											format -> specifier) + 1, \
+								ft_strlen(ft_strchr(format -> str, \
+													format -> specifier)));
+					free(format -> str);
+					format -> str = padded_str;
+					format -> len = ft_strlen(padded_str);
+				}
+			}
 			while (cnt + format -> len < format -> field_width)
 			{
 				print_char(padding);

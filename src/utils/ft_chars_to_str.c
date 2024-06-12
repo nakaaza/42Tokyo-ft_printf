@@ -6,7 +6,7 @@
 /*   By: tnakaza <tnakaza@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 17:00:36 by nakaaza           #+#    #+#             */
-/*   Updated: 2024/06/10 17:21:23 by tnakaza          ###   ########.fr       */
+/*   Updated: 2024/06/12 19:47:52 by tnakaza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,16 +29,26 @@ void	char_to_str(char c, t_format *format)
 void	str_to_str(char *s, t_format *format)
 {
 	char	*str;
+	size_t	cpy_len;
 
 	if (!s)
 	{
-		str = (char *)malloc(7 * sizeof(char));
-		ft_strlcpy(str, "(null)", 7);
+		if (format -> precision != -1 && format -> precision < 6)
+			cpy_len = format -> precision + 1;
+		else
+			cpy_len = 7;
+		str = (char *)malloc(cpy_len * sizeof(char));
+		ft_strlcpy(str, "(null)", cpy_len);
 	}
 	else
 	{
-		str = (char *)malloc((ft_strlen(s) + 1) * sizeof(char));
-		ft_strlcpy(str, s, ft_strlen(s) + 1);
+		if (format -> precision != -1 \
+			&& (size_t)format -> precision < ft_strlen(s))
+			cpy_len = format -> precision + 1;
+		else
+			cpy_len = ft_strlen(s) + 1;
+		str = (char *)malloc(cpy_len * sizeof(char));
+		ft_strlcpy(str, s, cpy_len);
 	}
 	format -> str = str;
 	format -> len = ft_strlen(str);

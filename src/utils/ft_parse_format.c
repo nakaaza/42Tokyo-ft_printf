@@ -6,7 +6,7 @@
 /*   By: tnakaza <tnakaza@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 17:34:13 by tnakaza           #+#    #+#             */
-/*   Updated: 2024/06/07 11:34:38 by tnakaza          ###   ########.fr       */
+/*   Updated: 2024/06/12 19:09:00 by tnakaza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,8 @@ size_t static	parse_precision(const char *str, t_format *format)
 		while (ft_isdigit(str[chars_read]))
 			chars_read++;
 	}
+	else
+		format -> precision = -1;
 	return (chars_read);
 }
 

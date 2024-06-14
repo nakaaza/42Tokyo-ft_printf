@@ -6,7 +6,7 @@ SRC_DIR		= ./src/
 SRCS		= ft_printf \
 				debugs
 UTILS_DIR	= ./src/utils/
-UTILS		= ft_parse_format ft_check_flags ft_print_format \
+UTILS		= ft_parse_format ft_update_format ft_check_flags ft_print_format \
 				ft_print_chars ft_chars_to_str ft_nbrs_to_str
 OBJ_DIR		= ./obj/
 

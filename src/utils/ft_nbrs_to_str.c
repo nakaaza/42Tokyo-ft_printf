@@ -6,7 +6,7 @@
 /*   By: tnakaza <tnakaza@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 17:11:25 by nakaaza           #+#    #+#             */
-/*   Updated: 2024/06/12 20:03:30 by tnakaza          ###   ########.fr       */
+/*   Updated: 2024/06/15 00:27:20 by tnakaza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,38 +19,27 @@ void	int_to_str(int nbr, t_format *format)
 {
 	char	*str;
 	char	*padded_str;
-	char	sign_padding;
+	size_t	precision_pad;
+	char	sign_padding[2];
 
-	str = ft_itoa(nbr);
-	sign_padding = '\0';
-	if (check_plus_flag(format))
-		sign_padding = '+';
+	// 各属性をパラメータで持って、最後に一回だけmallocする方がいい？
+	sign_padding[0] = '\0';
+	if (nbr < 0)
+		sign_padding[0] = '-';
+	else if (check_plus_flag(format))
+		sign_padding[0] = '+';
 	else if (check_space_flag(format))
-		sign_padding = ' ';
+		sign_padding[0] = ' ';
+	str = ft_itoa(nbr);
 	if (!str)
 		return ;
+	update_format_str(format, str);
 	if (nbr < 0)
-	{
-		padded_str = (char *)ft_calloc(ft_strlen(str), sizeof(char));
-		ft_strlcpy(padded_str, str + 1, ft_strlen(str));
-		free(str);
-		format -> str = padded_str;
-		format -> len = ft_strlen(padded_str);
-		sign_padding = '-';
-	}
+		update_format_str(format, str + 1);
 	else if (format -> precision == 0 && nbr == 0)
-	{
-		str[0] = '\0';
-		format -> str = str;
-		format -> len = 0;
-	}
-	else
-	{
-		format -> str = str;
-		format -> len = ft_strlen(str);
-	}
-	if (format -> precision != -1 \
-		&& (size_t)format -> precision > format -> len)
+		update_format_str(format, "\0");
+	free(str);
+	if (format -> precision > (int)format -> len)
 	{
 		padded_str = (char *)ft_calloc(format -> precision + 1, sizeof(char));
 		if (!padded_str)
@@ -61,12 +50,13 @@ void	int_to_str(int nbr, t_format *format)
 		format -> str = padded_str;
 		format -> len = format -> precision;
 	}
-	if (sign_padding)
+	if (sign_padding[0])
 	{
+		// concat_format_str(format, sign_padding, format -> str);
 		padded_str = (char *)ft_calloc(format -> len + 2, sizeof(char));
 		if (!padded_str)
 			return ;
-		padded_str[0] = sign_padding;
+		padded_str[0] = sign_padding[0];
 		ft_strlcat(padded_str, format -> str, format -> len + 2);
 		free(format -> str);
 		format -> str = padded_str;

@@ -6,7 +6,7 @@
 /*   By: tnakaza <tnakaza@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 19:38:05 by tnakaza           #+#    #+#             */
-/*   Updated: 2024/06/12 20:10:22 by tnakaza          ###   ########.fr       */
+/*   Updated: 2024/06/15 00:05:36 by tnakaza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "../libft/libft.h"
 # include <stdarg.h>
 # include <stdlib.h>
+# include <stdio.h>
 
 typedef struct s_format
 {
@@ -34,6 +35,10 @@ int			ft_printf(const char *str, ...);
 
 // ft_parse_format.c
 t_format	*parse_format(const char *str);
+
+// ft_update_format.c
+void		update_format_str(t_format *format, char *new_str);
+void		concat_format_str(t_format *format, char *head, char *tail);
 
 // ft_check_flags.c
 int			check_hash_flag(t_format *format);

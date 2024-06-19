@@ -6,7 +6,7 @@
 /*   By: tnakaza <tnakaza@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 19:38:05 by tnakaza           #+#    #+#             */
-/*   Updated: 2024/06/15 00:05:36 by tnakaza          ###   ########.fr       */
+/*   Updated: 2024/06/19 17:54:12 by tnakaza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ t_format	*parse_format(const char *str);
 // ft_update_format.c
 void		update_format_str(t_format *format, char *new_str);
 void		concat_format_str(t_format *format, char *head, char *tail);
+void		pad_format_str(t_format *format, char pad_char, \
+							size_t len, size_t offset);
 
 // ft_check_flags.c
 int			check_hash_flag(t_format *format);
@@ -62,6 +64,8 @@ void		str_to_str(char *s, t_format *format);
 void		int_to_str(int nbr, t_format *format);
 void		uint_to_str(unsigned int nbr, t_format *format);
 void		uint_to_hexstr(unsigned int nbr, int capital, t_format *format);
+
+// ft_ptrs_to_str.c
 void		ptr_to_str(uintptr_t nbr, t_format *format);
 
 // debugs.c

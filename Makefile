@@ -1,13 +1,12 @@
-# Names
+# Constants
 NAME		= libftprintf.a
 LIBFT_DIR	= ./libft/
 LIBFT_A		= libft.a
 SRC_DIR		= ./src/
-SRCS		= ft_printf \
-				debugs
+SRCS		= ft_printf
 UTILS_DIR	= ./src/utils/
-UTILS		= ft_parse_format ft_update_format ft_check_flags ft_print_format \
-				ft_print_chars ft_chars_to_str ft_nbrs_to_str ft_ptrs_to_str
+UTILS		= ft_parse_format ft_update_format ft_check_flags ft_set_flags \
+				ft_print_format ft_print_chars ft_chars_to_str ft_nbrs_to_str ft_ptrs_to_str
 OBJ_DIR		= ./obj/
 
 SRC_FILES	= $(addprefix $(SRC_DIR), $(addsuffix .c, $(SRCS))) $(addprefix $(UTILS_DIR), $(addsuffix .c, $(UTILS)))
@@ -21,16 +20,14 @@ RM			= rm -f
 
 all: $(NAME)
 
-# TODO: relinkの回避
 $(NAME): $(OBJ_FILES) $(LIBFT_A)
 	@echo "$(GREEN)Creating $(NAME)…$(DEF_COLOR)"
 	cp $(LIBFT_DIR)$(LIBFT_A) .
-	mv $(LIBFT_A) $(NAME)
+	cp $(LIBFT_A) $(NAME)
 	$(AR) $(NAME) $(OBJ_FILES)
 	@echo "\n"
 
 bonus: all
-	touch bonus
 
 $(LIBFT_A):
 	$(MAKE) -C $(LIBFT_DIR)
@@ -47,13 +44,13 @@ $(OBJ_DIR)%.o: $(UTILS_DIR)%.c
 
 clean:
 	@echo "$(GREEN)Cleaning object files…$(DEF_COLOR)"
-	$(RM) $(OBJ_FILES) bonus
+	$(RM) $(OBJ_FILES)
 	$(MAKE) -C $(LIBFT_DIR) clean
 	@echo "\n"
 
 fclean: clean
 	@echo "$(GREEN)Cleaning $(NAME)…$(DEF_COLOR)"
-	$(RM) $(NAME)
+	$(RM) $(LIBFT_A) $(NAME)
 	$(MAKE) -C $(LIBFT_DIR) fclean
 	@echo "\n"
 

@@ -6,7 +6,7 @@
 /*   By: tnakaza <tnakaza@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 23:14:30 by tnakaza           #+#    #+#             */
-/*   Updated: 2024/06/19 18:03:07 by tnakaza          ###   ########.fr       */
+/*   Updated: 2024/06/21 23:44:31 by tnakaza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	pad_format_str(t_format *format, char pad_char, \
 	head = ft_substr(format -> str, 0, offset);
 	if (!head)
 		return ;
-	tail = ft_substr(format -> str, offset, ft_strlen(format -> str) - offset);
+	tail = ft_substr(format -> str, offset, format -> len - offset);
 	if (!tail)
 		return ;
 	padding = (char *)ft_calloc(len + 1, sizeof(char));

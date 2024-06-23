@@ -6,12 +6,11 @@
 /*   By: tnakaza <tnakaza@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 19:42:37 by tnakaza           #+#    #+#             */
-/*   Updated: 2024/06/12 19:16:40 by tnakaza          ###   ########.fr       */
+/*   Updated: 2024/06/22 08:25:37 by tnakaza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft_printf.h"
-#include <stdio.h>
 
 size_t	print_char(char c)
 {
@@ -29,9 +28,6 @@ size_t	print_formatted_str(t_format *format)
 		return (cnt);
 	formatted_str = format -> str;
 	while (cnt < format -> len)
-	{
-		print_char(*formatted_str++);
-		cnt++;
-	}
+		cnt += print_char(*formatted_str++);
 	return (cnt);
 }

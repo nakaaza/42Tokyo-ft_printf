@@ -6,7 +6,7 @@
 /*   By: tnakaza <tnakaza@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 19:38:05 by tnakaza           #+#    #+#             */
-/*   Updated: 2024/06/19 17:54:12 by tnakaza          ###   ########.fr       */
+/*   Updated: 2024/06/22 08:18:56 by tnakaza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 # include "../libft/libft.h"
 # include <stdarg.h>
 # include <stdlib.h>
-# include <stdio.h>
 
 typedef struct s_format
 {
@@ -49,8 +48,16 @@ int			check_plus_flag(t_format *format);
 int			check_space_flag(t_format *format);
 int			check_zero_flag(t_format *format);
 
+// ft_set_flags.c
+void		set_hash_flag(t_format *format, int val);
+void		set_minus_flag(t_format *format, int val);
+void		set_plus_flag(t_format *format, int val);
+void		set_space_flag(t_format *format, int val);
+void		set_zero_flag(t_format *format, int val);
+
 // ft_print_format.c
 size_t		print_format(t_format *format, va_list args);
+void		pad_field_width(t_format *format);
 
 // ft_print_chars.c
 size_t		print_char(char c);
@@ -67,9 +74,5 @@ void		uint_to_hexstr(unsigned int nbr, int capital, t_format *format);
 
 // ft_ptrs_to_str.c
 void		ptr_to_str(uintptr_t nbr, t_format *format);
-
-// debugs.c
-// TODO: delete
-void		print_params(t_format *format);
 
 #endif

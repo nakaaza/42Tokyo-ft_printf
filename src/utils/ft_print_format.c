@@ -6,7 +6,7 @@
 /*   By: tnakaza <tnakaza@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 14:54:41 by tnakaza           #+#    #+#             */
-/*   Updated: 2024/06/12 20:01:12 by tnakaza          ###   ########.fr       */
+/*   Updated: 2024/06/22 08:20:03 by tnakaza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,8 @@
 size_t	print_format(t_format *format, va_list args)
 {
 	size_t	cnt;
-	char	padding;
-	char	*padded_str;
 
 	cnt = 0;
-	padding = ' ';
 	if (format -> specifier == 'c')
 		char_to_str(va_arg(args, int), format);
 	else if (format -> specifier == 's')
@@ -36,73 +33,35 @@ size_t	print_format(t_format *format, va_list args)
 		uint_to_hexstr(va_arg(args, int), 1, format);
 	else if (format -> specifier == '%')
 		char_to_str('%', format);
+	cnt += print_formatted_str(format);
+	return (cnt);
+}
+
+void	pad_field_width(t_format *format)
+{
+	size_t	pad_len;
+
 	if (format -> field_width > format -> len)
 	{
+		if (ft_strchr("diuxX", format -> specifier) \
+			&& format -> precision != -1)
+			set_zero_flag(format, 0);
+		pad_len = format -> field_width - format -> len;
 		if (check_minus_flag(format))
+			pad_format_str(format, ' ', pad_len, format -> len);
+		else if (check_zero_flag(format))
 		{
-			cnt += print_formatted_str(format);
-			while (cnt < format -> field_width)
-			{
-				print_char(padding);
-				cnt++;
-			}
+			if (ft_strchr("xX", format -> specifier) \
+				&& check_hash_flag(format))
+				pad_format_str(format, '0', pad_len, 2);
+			else if (ft_strchr("di", format -> specifier) \
+				&& !ft_isdigit(*(format -> str)))
+				pad_format_str(format, '0', pad_len, 1);
+			else
+				pad_format_str(format, '0', pad_len, 0);
 		}
 		else
-		{
-			if (check_zero_flag(format) \
-				&& (!ft_strchr("diuxX", format -> specifier) \
-					|| (ft_strchr("diuxX", format -> specifier) \
-						&& format -> precision == -1)))
-			{
-				padding = '0';
-				if (ft_strchr("di", format -> specifier) \
-					&& format -> precision == -1 \
-					&& !ft_isdigit(*(format -> str)))
-				{
-					print_char(*(format -> str));
-					cnt++;
-					padded_str = (char *)ft_calloc(ft_strlen(format -> str), \
-													sizeof(char));
-					ft_strlcpy(padded_str, format -> str + 1, \
-								ft_strlen(format -> str));
-					free(format -> str);
-					format -> str = padded_str;
-					format -> len = ft_strlen(padded_str);
-				}
-				if (ft_strchr("xX", format -> specifier) \
-					&& format -> precision == -1 \
-					&& check_hash_flag(format) \
-					&& ft_strncmp(format -> str, "0", 2) != 0)
-				{
-					print_char('0');
-					if (format -> specifier == 'x')
-						print_char('x');
-					else if (format -> specifier == 'X')
-						print_char('X');
-					cnt += 2;
-					padded_str = (char *)calloc(ft_strlen(\
-													ft_strchr(format -> str, \
-														format -> specifier)), \
-												sizeof(char));
-					ft_strlcpy(padded_str, \
-								ft_strchr(format -> str, \
-											format -> specifier) + 1, \
-								ft_strlen(ft_strchr(format -> str, \
-													format -> specifier)));
-					free(format -> str);
-					format -> str = padded_str;
-					format -> len = ft_strlen(padded_str);
-				}
-			}
-			while (cnt + format -> len < format -> field_width)
-			{
-				print_char(padding);
-				cnt++;
-			}
-			cnt += print_formatted_str(format);
-		}
+			pad_format_str(format, ' ', pad_len, 0);
 	}
-	else
-		cnt += print_formatted_str(format);
-	return (cnt);
+	return ;
 }

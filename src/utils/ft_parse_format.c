@@ -6,7 +6,7 @@
 /*   By: tnakaza <tnakaza@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 17:34:13 by tnakaza           #+#    #+#             */
-/*   Updated: 2024/06/12 19:09:00 by tnakaza          ###   ########.fr       */
+/*   Updated: 2024/06/22 08:21:35 by tnakaza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,9 @@ size_t static	parse_flags(const char *str, t_format *format)
 		chars_read++;
 	}
 	if (check_plus_flag(format))
-		*flags &= ~(1 << 1);
+		set_space_flag(format, 0);
 	if (check_minus_flag(format))
-		*flags &= ~(1 << 0);
+		set_zero_flag(format, 0);
 	return (chars_read);
 }
 
@@ -64,7 +64,6 @@ size_t static	parse_field_width(const char *str, t_format *format)
 {
 	size_t			chars_read;
 
-	// TODO: *への対応
 	chars_read = 0;
 	format -> field_width = ft_atoi(str);
 	while (ft_isdigit(str[chars_read]))
@@ -76,7 +75,6 @@ size_t static	parse_precision(const char *str, t_format *format)
 {
 	size_t			chars_read;
 
-	// TODO: *への対応
 	chars_read = 0;
 	if (*str == '.')
 	{

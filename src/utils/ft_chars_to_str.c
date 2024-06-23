@@ -6,7 +6,7 @@
 /*   By: tnakaza <tnakaza@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 17:00:36 by nakaaza           #+#    #+#             */
-/*   Updated: 2024/06/12 19:47:52 by tnakaza          ###   ########.fr       */
+/*   Updated: 2024/06/22 09:18:59 by tnakaza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,18 @@ void	char_to_str(char c, t_format *format)
 {
 	char	*str;
 
-	str = (char *)malloc(2 * sizeof(char));
+	str = (char *)calloc(2, sizeof(char));
 	if (!str)
 		return ;
 	str[0] = c;
 	str[1] = '\0';
-	format -> str = str;
-	format -> len = 1;
+	update_format_str(format, str);
+	free(str);
+	if (c == '\0')
+		(format -> len)++;
+	pad_field_width(format);
+	if (*(format -> str) != '\0' && c == '\0')
+		(format -> len)++;
 	return ;
 }
 
@@ -37,7 +42,7 @@ void	str_to_str(char *s, t_format *format)
 			cpy_len = format -> precision + 1;
 		else
 			cpy_len = 7;
-		str = (char *)malloc(cpy_len * sizeof(char));
+		str = (char *)calloc(cpy_len, sizeof(char));
 		ft_strlcpy(str, "(null)", cpy_len);
 	}
 	else
@@ -47,10 +52,10 @@ void	str_to_str(char *s, t_format *format)
 			cpy_len = format -> precision + 1;
 		else
 			cpy_len = ft_strlen(s) + 1;
-		str = (char *)malloc(cpy_len * sizeof(char));
+		str = (char *)calloc(cpy_len, sizeof(char));
 		ft_strlcpy(str, s, cpy_len);
 	}
-	format -> str = str;
-	format -> len = ft_strlen(str);
-	return ;
+	update_format_str(format, str);
+	free(str);
+	pad_field_width(format);
 }

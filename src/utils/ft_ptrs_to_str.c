@@ -6,7 +6,7 @@
 /*   By: tnakaza <tnakaza@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 17:11:25 by nakaaza           #+#    #+#             */
-/*   Updated: 2024/06/19 17:36:58 by tnakaza          ###   ########.fr       */
+/*   Updated: 2024/06/21 23:56:56 by tnakaza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,9 @@ void	ptr_to_str(uintptr_t nbr, t_format *format)
 	int		r;
 
 	d = count_pdigit(nbr) + 2;
-	res = (char *)malloc((d + 1) * (int) sizeof(char));
+	res = (char *)calloc(d + 1, sizeof(char));
 	if (!res)
 		return ;
-	format -> str = res;
-	format -> len = d;
 	res[d] = '\0';
 	res[0] = '0';
 	res[1] = 'x';
@@ -38,6 +36,9 @@ void	ptr_to_str(uintptr_t nbr, t_format *format)
 			res[d] = r - 10 + 'a';
 		nbr /= 16;
 	}
+	update_format_str(format, res);
+	free(res);
+	pad_field_width(format);
 	return ;
 }
 
